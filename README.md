@@ -1,5 +1,5 @@
 # game greed
-This is the last version of game greed have many hours in understand and change the code, have base in rfk, still I am understand as this play
+This is the last version of game greed have many hours in understand and change the code, it have base in rfk, the work with games is very funny
 
 ## Getting Started
 ---
