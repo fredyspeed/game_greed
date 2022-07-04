@@ -1,9 +1,9 @@
 import os
 import random
 
-from game.casting.actor import Actor
-from game.casting.artifact import Artifact
-from game.casting.cast import Cast
+from game.casting.player import Player
+from game.casting.player_static import PlayerStatic
+from game.casting.elements import Elements
 
 from game.directing.director import Director
 
@@ -34,27 +34,27 @@ class GameSettings:
     def start_elements(self):
     
         # create the cast
-        cast = Cast()
+        elements = Elements()
         
         # create the banner
-        banner = Actor()
+        banner = Player()
         banner.set_text("")
         banner.set_font_size(self.FONT_SIZE)
         banner.set_color(self.WHITE)
         banner.set_position(Point(self.CELL_SIZE, 0))
-        cast.add_actor("banners", banner)
+        elements.add_object("banners", banner)
         
-        # create the robot
+        # create the player
         x = int(self.MAX_X / 2)
         y = int(self.MAX_Y / 2)
         position = Point(x, y)
 
-        robot = Actor()
-        robot.set_text("#")
-        robot.set_font_size(self.FONT_SIZE)
-        robot.set_color(self.WHITE)
-        robot.set_position(position)
-        cast.add_actor("robots", robot)
+        player = Player()
+        player.set_text("#")
+        player.set_font_size(self.FONT_SIZE)
+        player.set_color(self.WHITE)
+        player.set_position(position)
+        elements.add_object("robots", player)
         
 
         for n in range(self.DEFAULT_ARTIFACTS):
@@ -76,17 +76,17 @@ class GameSettings:
             b = random.randint(0, 255)
             color = Color(r, g, b)
             
-            artifact = Artifact()
-            artifact.set_text(text)
-            artifact.set_font_size(self.FONT_SIZE)
-            artifact.set_color(color)
-            artifact.set_position(position)
-            artifact.set_message(message)
-            cast.add_actor("artifacts", artifact)
+            player_static = PlayerStatic()
+            player_static.set_text(text)
+            player_static.set_font_size(self.FONT_SIZE)
+            player_static.set_color(color)
+            player_static.set_position(position)
+            player_static.set_message(message)
+            elements.add_object("artifacts", player_static)
     
     # start the game
 
         keyboard_service = KeyboardService(self.CELL_SIZE)
         video_service = VideoService(self.__CAPTION, self.MAX_X, self.MAX_Y, self.CELL_SIZE, self.FRAME_RATE)
         director = Director(keyboard_service, video_service)
-        director.start_game(cast)
+        director.start_game(elements)

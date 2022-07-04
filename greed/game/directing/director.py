@@ -1,3 +1,5 @@
+
+
 class Director:
     """A person who directs the game. 
     
@@ -33,53 +35,58 @@ class Director:
             self._do_outputs(cast)
         self._video_service.close_window()
 
-    def _get_inputs(self, cast):
-        """Gets directional input from the keyboard and applies it to the robot.
+    def _get_inputs(self, objects):
+        """Gets directional input from the keyboard and applies it to the player.
         
         Args:
-            cast (Cast): The cast of actors.
+            objects (Elements): The Elements of objects  (ObjectInBoard).
         """
-        robot = cast.get_first_actor("robots")
-        point_now = robot.get_position()
+        player = objects.get_first_object("robots")
+        point_now = player.get_position()
         self._positionX = point_now.get_x()
         self._positionY = point_now.get_y()
         velocity = self._keyboard_service.get_direction()
-        robot.set_velocity(velocity)        
+        player.set_velocity(velocity)        
 
-    def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with artifacts.
+    def _do_updates(self, elements):
+        """Updates the player's position and resolves any collisions with artifacts.
         
         Args:
             cast (Cast): The cast of actors.
         """
-        banner = cast.get_first_actor("banners")
-        robot = cast.get_first_actor("robots")
-        artifacts = cast.get_actors("artifacts")
+        banner = elements.get_first_object("banners")
+        player = elements.get_first_object("robots")
+        playerstatics = elements.get_objects("artifacts")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
-        robot.move_next(max_x, max_y)
+        player.move_next(max_x, max_y)
         
-        for artifact in artifacts:
-            if robot.get_position().equals(artifact.get_position()):
-                message = artifact.get_message()
+        for playerstatic in playerstatics:
+            if player.get_position().equals(playerstatic.get_position()):
+                message = playerstatic.get_message()
                 if message == "Gem":
-                    robot.set_points(+50)
+                    player.set_points(+50)
                 elif(message == "Rock"):
-                    robot.set_points(-50)
+                    player.set_points(-50)
                  
-                cast.remove_actor("artifacts",artifact) 
-            result = str(robot.get_points())
+                elements.remove_object("artifacts",playerstatic) 
+                #elements.change_positions("artifacts")
+
+            result = str(player.get_points())
             banner.set_text(result)
         
-    def _do_outputs(self, cast):
-        """Draws the actors on the screen.
+    def _do_outputs(self, elements):
+        """Draws the objects on the screen.
         
         Args:
-            cast (Cast): The cast of actors.
+            elements (Elements): The cast of actors.
         """
         self._video_service.clear_buffer()
-        actors = cast.get_all_actors()
-        self._video_service.draw_actors(actors)
+        objects = elements.get_all_objects()
+        self._video_service.draw_actors(objects)
         self._video_service.flush_buffer()
+
+   
+        

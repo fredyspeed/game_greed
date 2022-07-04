@@ -14,7 +14,7 @@ class Player(ObjectInBoard):
         super().__init__()
         self._velocity = Point(0, 0)
         self._message = ""
-    
+        self._points = 0
 
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity. Will wrap the position 
@@ -58,3 +58,19 @@ class Player(ObjectInBoard):
             Point: The actor's speed and direction.
         """
         return self._velocity
+    
+    def get_points(self):
+        """Gets the point that the artefact contains.
+        
+        Returns:
+            int: The number of points accumulated.
+        """
+        return self._points
+    
+    def set_points(self, points_add):
+        """Updates the points to add or rest of the score save in points
+        Args:
+            point_add (int): contains value positive if touch a Gem or negative 
+            if touch a Rock        
+        """
+        self._points += points_add

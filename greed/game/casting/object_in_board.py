@@ -13,7 +13,11 @@ class ObjectInBoard:
     """
 
     def __init__(self):
-        """Constructs a new Actor."""
+        """Constructs a new instance of ObjectInBoard.
+
+        Args:
+            self (ObjectInBoard): An instance of ObjectInBorard.
+        """
         self._text = ""
         self._font_size = 15
         self._color = Color(255, 255, 255)
@@ -21,10 +25,10 @@ class ObjectInBoard:
         
 
     def get_color(self):
-        """Gets the actor's color as a tuple of three ints (r, g, b).
+        """Gets the color as Object Color that is in the directorie shared .
         
         Returns:
-            Color: The actor's text color.
+            Color: The color that the object will have.
         """
         return self._color
 
