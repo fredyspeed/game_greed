@@ -25,6 +25,10 @@ class Director:
         self._positionY = 0
         self._start = time.time()
         self._corner_reached = 0 
+        self._first = True
+        self._second = True
+        self._thirth = True
+        self._fourth = True
         
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -33,11 +37,21 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._video_service.open_window()
-        while self._video_service.is_window_open():
+        while self._video_service.is_window_open() and self._corner_reached != 4:
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
             self._get_time()
+        # guardar en el archivo
+        with open('dog_breeds_reversed.txt', 'w') as writer:
+        # Alternatively you could use
+        # writer.writelines(reversed(dog_breeds))
+
+        # Write the dog breeds to the file in reversed order
+            writer.write()
+
+
+
         self._video_service.close_window()
 
     def _get_inputs(self, objects):
@@ -69,9 +83,9 @@ class Director:
         max_y = self._video_service.get_height()
         player.move_next(max_x, max_y)
         
-        banner_time.set_text(self._get_time())
+        banner_time.set_text(self._get_time() + " corners visit: " + str(self._corner_reached))
 
-
+        self._touched_one_corner(player.get_position())
         for playerstatic in playerstatics:
             if player.get_position().equals(playerstatic.get_position()):
                 message = playerstatic.get_message()
@@ -107,16 +121,21 @@ class Director:
         seconds = int(end - self._start)
         #time_in_miliseconds = time_elapsed * 1000
         # printing information
-        return "Seconds: "+str(seconds)
+        return "Seconds: "+str(seconds) 
     
     def _touched_one_corner(self, point):
-        if(point.get_x()==0 and point.get_y()==0):
+
+        if(point.get_x()== 0 and point.get_y()== 0 and self._first):
             self._corner_reached +=1
-        elif(point.get_x()==900 and point.get_y()==0):
+            self._first = False
+        elif(point.get_x()== 885 and point.get_y()== 0 and self._second):
             self._corner_reached +=1
-        elif(point.get_x()==900 and point.get_y()==600):
+            self._second = False
+        elif(point.get_x()== 885 and point.get_y()== 585 and self._thirth):
             self._corner_reached +=1
-        elif(point.get_x()==0 and point.get_y()==600):
+            self._thirth = False
+        elif(point.get_x()== 0 and point.get_y()== 585 and self._fourth):
             self._corner_reached +=1
+            self._fourth = False
    
         
