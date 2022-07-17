@@ -1,4 +1,6 @@
+import time
 
+from pyray import get_time
 
 class Director:
     """A person who directs the game. 
@@ -21,6 +23,8 @@ class Director:
         self._video_service = video_service
         self._positionX = 0
         self._positionY = 0
+        self._start = time.time()
+        self._corner_reached = 0 
         
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -33,6 +37,7 @@ class Director:
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
+            self._get_time()
         self._video_service.close_window()
 
     def _get_inputs(self, objects):
@@ -57,12 +62,16 @@ class Director:
         banner = elements.get_first_object("banners")
         player = elements.get_first_object("robots")
         playerstatics = elements.get_objects("artifacts")
+        banner_time = elements.get_first_object("banners_time")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         player.move_next(max_x, max_y)
         
+        banner_time.set_text(self._get_time())
+
+
         for playerstatic in playerstatics:
             if player.get_position().equals(playerstatic.get_position()):
                 message = playerstatic.get_message()
@@ -88,5 +97,26 @@ class Director:
         self._video_service.draw_actors(objects)
         self._video_service.flush_buffer()
 
+    def _get_time(self):
+        # start measuring time      
+        # task to measure
+        #l = [x for x in range(1000000)]
+        # end measuring time
+        end = time.time()
+        # getting elapsed time
+        seconds = int(end - self._start)
+        #time_in_miliseconds = time_elapsed * 1000
+        # printing information
+        return "Seconds: "+str(seconds)
+    
+    def _touched_one_corner(self, point):
+        if(point.get_x()==0 and point.get_y()==0):
+            self._corner_reached +=1
+        elif(point.get_x()==900 and point.get_y()==0):
+            self._corner_reached +=1
+        elif(point.get_x()==900 and point.get_y()==600):
+            self._corner_reached +=1
+        elif(point.get_x()==0 and point.get_y()==600):
+            self._corner_reached +=1
    
         

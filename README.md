@@ -1,5 +1,5 @@
-# game greed
-This is the last version of game greed have many hours in understand and change the code, it have base in rfk, the work with games is very funny
+# game eat fast
+This game has the base in the last version of game greed have It has the additional feature that you play against the clock, you have to get the highest score and go through the 4 corners, with this you will have a factor the higher the player to beat.
 
 ## Getting Started
 ---
@@ -35,6 +35,6 @@ root                    (project root folder)
 * Python 3.10.5
 * Raylib Python CFFI 3.7
 
-## Authors
+## Authors 
 ---
-* # TODO: Add your name and email here
+* # This code is just the beta version and has been taken from the examples of the class.

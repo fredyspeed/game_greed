@@ -1,6 +1,7 @@
 import os
 import random
 
+
 from game.casting.player import Player
 from game.casting.player_static import PlayerStatic
 from game.casting.elements import Elements
@@ -27,7 +28,7 @@ class GameSettings:
 
     def __init__(self):
         """Constructs a new."""
-        self.__CAPTION = "Game Greed"
+        self.__CAPTION = "EAT-TIME"
         self.__points = 0
 
 
@@ -43,6 +44,13 @@ class GameSettings:
         banner.set_color(self.WHITE)
         banner.set_position(Point(self.CELL_SIZE, 0))
         elements.add_object("banners", banner)
+
+        banner_time = Player()
+        banner_time.set_text("")
+        banner_time.set_font_size(self.FONT_SIZE)
+        banner_time.set_color(self.WHITE)
+        banner_time.set_position(Point(self.CELL_SIZE * 5, 0))
+        elements.add_object("banners_time", banner_time)
         
         # create the player
         x = int(self.MAX_X / 2)
@@ -90,3 +98,6 @@ class GameSettings:
         video_service = VideoService(self.__CAPTION, self.MAX_X, self.MAX_Y, self.CELL_SIZE, self.FRAME_RATE)
         director = Director(keyboard_service, video_service)
         director.start_game(elements)
+
+
+    
